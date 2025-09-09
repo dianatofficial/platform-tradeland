@@ -1,6 +1,3 @@
-
-
-
 /**
  * @fileoverview سرویس مدیریت داده های بلاگ.
  * این سرویس مسئول فراهم کردن داده های نمونه (mock) برای پست های بلاگ است.
@@ -11,6 +8,7 @@ import { Observable, of, delay, switchMap, throwError } from 'rxjs';
 import { ALL_POSTS } from '../../data/blog.data';
 import { BlogPost } from '../../models/blog.model';
 import { ALL_CATEGORIES } from '../../data/categories.data';
+import { ALL_USERS } from '../../data/users.data';
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
@@ -20,9 +18,12 @@ export class BlogService {
 
   private enrichPost(post: BlogPost): BlogPost {
     const category = ALL_CATEGORIES.find(c => c.id === post.categoryId);
+    const author = ALL_USERS.find(u => u.id === post.authorId);
     return {
       ...post,
       category: category?.name || 'بدون دسته',
+      author: author?.fullName || post.author,
+      authorImage: author?.avatarUrl || 'https://picsum.photos/seed/default-author/100/100',
     };
   }
 
@@ -66,13 +67,14 @@ export class BlogService {
    * یک پست بلاگ جدید اضافه می‌کند.
    * @param postData داده‌های پست جدید (بدون slug و تاریخ).
    */
-  addPost(postData: Omit<BlogPost, 'slug' | 'date' | 'category'>): void {
+  addPost(postData: Omit<BlogPost, 'slug' | 'date' | 'category' | 'authorImage'>): void {
     const newSlug = `${this.createSlug(postData.title)}-${Date.now()}`;
     const newPost: BlogPost = {
       ...postData,
       slug: newSlug,
       date: new Date().toLocaleDateString('fa-IR'),
       category: '', // will be enriched on get
+      authorImage: '', // will be enriched on get
     };
     this.postsState.update(posts => [newPost, ...posts]);
   }

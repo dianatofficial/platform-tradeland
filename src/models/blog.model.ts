@@ -14,6 +14,13 @@ export interface BlogPost {
   imageUrl: string;
   excerpt: string;
   author: string;
+  authorId: number; // Foreign key to User model
+  authorImage: string; // Denormalized for display
   date: string;
   content: string;
+  tags: string[];
+  readingTime: string;
+  featured?: boolean;
+  views: number;
+  likes: number;
 }
