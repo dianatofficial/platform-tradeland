@@ -1,0 +1,65 @@
+<div class="max-w-4xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">{{ pageTitle() }}</h1>
+    <a routerLink="/admin/subscription-plans" class="ios-button bg-gray-200 text-gray-800 hover:bg-gray-300 flex items-center gap-2">
+      <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      <span>بازگشت به لیست</span>
+    </a>
+  </div>
+
+  <div class="ios-card">
+    <form class="p-6 space-y-6" [formGroup]="planForm" (ngSubmit)="onSubmit()" novalidate>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="name" class="block text-sm font-medium text-gray-700">نام پلن</label>
+          <input type="text" id="name" formControlName="name" class="mt-1 block w-full border rounded-lg px-4 py-2">
+        </div>
+        <div>
+          <label for="price" class="block text-sm font-medium text-gray-700">قیمت (تومان)</label>
+          <input type="text" id="price" formControlName="price" class="mt-1 block w-full border rounded-lg px-4 py-2">
+        </div>
+      </div>
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="period" class="block text-sm font-medium text-gray-700">دوره (مثلا: ماهانه)</label>
+          <input type="text" id="period" formControlName="period" class="mt-1 block w-full border rounded-lg px-4 py-2">
+        </div>
+        <div class="flex items-center pt-6">
+            <input id="isRecommended" formControlName="isRecommended" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-purple-600 focus:ring-purple-600">
+            <label for="isRecommended" class="mr-3 text-sm font-medium text-gray-900">این پلن پیشنهاد ویژه است</label>
+        </div>
+      </div>
+      
+      <div>
+        <label for="description" class="block text-sm font-medium text-gray-700">توضیحات کوتاه</label>
+        <textarea id="description" formControlName="description" rows="3" class="mt-1 block w-full border rounded-lg px-4 py-2"></textarea>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-gray-700">ویژگی‌های پلن</label>
+        <div formArrayName="features" class="mt-2 space-y-2">
+          @for (feature of features.controls; track $index) {
+            <div class="flex items-center gap-2">
+              <input type="text" [formControlName]="$index" class="flex-grow border rounded-lg px-4 py-2">
+              <button (click)="removeFeature($index)" type="button" class="p-2 text-red-600 hover:bg-red-50 rounded-full">
+                <i data-lucide="trash-2" class="w-5 h-5"></i>
+              </button>
+            </div>
+          }
+        </div>
+        <button (click)="addFeature()" type="button" class="mt-2 ios-button ios-button-sm bg-gray-200 text-gray-800 hover:bg-gray-300 flex items-center gap-2">
+          <i data-lucide="plus" class="w-4 h-4"></i>
+          <span>افزودن ویژگی</span>
+        </button>
+      </div>
+
+      <div class="flex justify-end pt-4 border-t">
+        <button type="submit" [disabled]="isLoading()" class="ios-button ios-button-primary w-full sm:w-auto min-w-[120px]">
+          ذخیره
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

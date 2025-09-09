@@ -1,0 +1,59 @@
+<div class="ios-card">
+  <div class="p-5 border-b flex items-center justify-between flex-wrap gap-4">
+    <div class="flex-1 min-w-0">
+      <h1 class="text-xl font-bold text-gray-800">مدیریت پلن‌های اشتراک</h1>
+      <p class="text-sm text-gray-500 mt-1 truncate">پلن‌های اشتراک ویژه را ایجاد و ویرایش کنید.</p>
+    </div>
+    <div class="flex items-center gap-4 w-full sm:w-auto">
+      <a routerLink="/admin/subscription-plans/new" class="ios-button ios-button-primary flex items-center gap-2 flex-shrink-0">
+        <i data-lucide="plus" class="w-5 h-5"></i>
+        <span>پلن جدید</span>
+      </a>
+    </div>
+  </div>
+  <div class="min-h-[400px]">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">نام پلن</th>
+            <th scope="col" class="px-6 py-3">قیمت (تومان)</th>
+            <th scope="col" class="px-6 py-3">دوره</th>
+            <th scope="col" class="px-6 py-3">پیشنهادی</th>
+            <th scope="col" class="px-6 py-3">اقدامات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (plan of plans(); track plan.id) {
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                {{ plan.name }}
+              </th>
+              <td class="px-6 py-4">{{ plan.price }}</td>
+              <td class="px-6 py-4">{{ plan.period }}</td>
+              <td class="px-6 py-4">
+                @if (plan.isRecommended) {
+                  <span class="bg-purple-100 text-purple-800 text-xs font-medium px-2.5 py-0.5 rounded-full">بله</span>
+                } @else {
+                  <span>خیر</span>
+                }
+              </td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <a [routerLink]="['/admin/subscription-plans/edit', plan.id]" class="font-medium text-blue-600 hover:underline">ویرایش</a>
+                  <button (click)="deletePlan(plan.id, plan.name)" class="font-medium text-red-600 hover:underline">حذف</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="text-center py-10">
+                <h3 class="text-lg font-semibold text-gray-700">هیچ پلنی یافت نشد</h3>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

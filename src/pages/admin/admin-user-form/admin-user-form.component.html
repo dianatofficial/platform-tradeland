@@ -1,0 +1,74 @@
+<div class="max-w-4xl mx-auto">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">{{ pageTitle() }}</h1>
+    <a routerLink="/admin/users" class="ios-button bg-gray-200 text-gray-800 hover:bg-gray-300 flex items-center gap-2">
+      <i data-lucide="arrow-right" class="w-5 h-5"></i>
+      <span>بازگشت به لیست</span>
+    </a>
+  </div>
+
+  <div class="ios-card">
+    <form class="p-6 space-y-6" [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Full Name -->
+        <div>
+          <label for="fullName" class="block text-sm font-medium text-gray-700">نام کامل</label>
+          <input type="text" id="fullName" formControlName="fullName" 
+                 class="mt-1 block w-full border rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">ایمیل</label>
+          <input type="email" id="email" formControlName="email" 
+                 class="mt-1 block w-full border rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Role -->
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700">نقش کاربری</label>
+          <select id="role" formControlName="role" class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500">
+            <option value="User">کاربر (تریدر)</option>
+            <option value="Instructor">مدرس / تحلیلگر</option>
+            <option value="Admin">ادمین</option>
+          </select>
+        </div>
+
+        <!-- Trading Style -->
+        <div>
+          <label for="tradingStyle" class="block text-sm font-medium text-gray-700">سبک معاملاتی (اختیاری)</label>
+          <select id="tradingStyle" formControlName="tradingStyle" class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500">
+            <option [ngValue]="null">انتخاب نشده</option>
+            <option value="Day Trader">Day Trader</option>
+            <option value="Swing Trader">Swing Trader</option>
+            <option value="Investor">Investor</option>
+            <option value="Scalper">Scalper</option>
+          </select>
+        </div>
+      </div>
+       
+      <!-- Bio -->
+      <div>
+        <label for="bio" class="block text-sm font-medium text-gray-700">بیوگرافی (اختیاری)</label>
+        <textarea id="bio" formControlName="bio" rows="4" 
+                  class="mt-1 block w-full border rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+      </div>
+
+      <div class="flex justify-end pt-4 border-t">
+        <button type="submit" [disabled]="isLoading()" class="ios-button ios-button-primary w-full sm:w-auto min-w-[120px] flex items-center justify-center">
+           @if (isLoading()) {
+              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            } @else {
+              <span>ذخیره</span>
+            }
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

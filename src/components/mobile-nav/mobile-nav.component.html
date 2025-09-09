@@ -1,0 +1,15 @@
+<nav class="md:hidden fixed bottom-0 inset-x-0 z-40 ios-glass-morph border-t border-gray-200/80">
+  <div class="flex justify-around items-center h-16">
+    @for (link of navLinks(); track link.path) {
+      <a 
+        [routerLink]="link.path"
+        routerLinkActive="text-blue-600"
+        [routerLinkActiveOptions]="{exact: link.exact ?? false}"
+        class="flex flex-col items-center justify-center text-gray-600 hover:text-blue-600 transition-colors w-full pt-1"
+      >
+        <i [attr.data-lucide]="link.icon" class="w-6 h-6"></i>
+        <span class="text-xs mt-1">{{ link.label }}</span>
+      </a>
+    }
+  </div>
+</nav>

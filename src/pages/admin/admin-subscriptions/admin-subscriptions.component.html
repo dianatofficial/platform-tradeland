@@ -1,0 +1,49 @@
+<div class="ios-card">
+  <div class="p-5 border-b flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">مدیریت اشتراک‌ها</h1>
+      <p class="text-sm text-gray-500 mt-1">لیست اشتراک‌های فعال و منقضی شده کاربران.</p>
+    </div>
+  </div>
+  <div class="min-h-[400px]">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">کاربر</th>
+            <th scope="col" class="px-6 py-3">پلن</th>
+            <th scope="col" class="px-6 py-3">تاریخ شروع</th>
+            <th scope="col" class="px-6 py-3">تاریخ انقضا</th>
+            <th scope="col" class="px-6 py-3">وضعیت</th>
+            <th scope="col" class="px-6 py-3">اقدامات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (sub of subscriptions(); track sub.id) {
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                <div class="flex items-center gap-3">
+                   @if(sub.user.avatarUrl) {
+                    <img class="w-10 h-10 rounded-full object-cover" [src]="sub.user.avatarUrl" [alt]="sub.user.fullName">
+                   }
+                  <span>{{ sub.user.fullName }}</span>
+                </div>
+              </th>
+              <td class="px-6 py-4">{{ sub.planName }}</td>
+              <td class="px-6 py-4">{{ sub.startDate }}</td>
+              <td class="px-6 py-4">{{ sub.endDate }}</td>
+              <td class="px-6 py-4">
+                 <span class="px-2 py-1 text-xs font-medium rounded-full" [class]="getStatusClass(sub.status)">
+                  {{ sub.status }}
+                </span>
+              </td>
+              <td class="px-6 py-4">
+                <button class="font-medium text-blue-600 hover:underline">مشاهده جزئیات</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+@switch (status()) {
+  @case ('loading') {
+    <ng-content select="[slot='loading']"></ng-content>
+  }
+  @case ('error') {
+    <!-- The custom error content is projected here. This wrapper is used to check for its existence. -->
+    <div class="error-slot-wrapper">
+       <ng-content select="[slot='error']"></ng-content>
+    </div>
+
+    <!-- The default error template is shown only if NO custom content was projected -->
+    @if (!hasCustomErrorContent()) {
+      <div class="ios-card text-center p-8 max-w-lg mx-auto">
+        <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto"></i>
+        <h3 class="mt-4 text-xl font-bold text-gray-800">خطا در بارگذاری</h3>
+        <p class="mt-2 text-gray-600">{{ error() }}</p>
+        @if (refetch.observed) {
+          <button (click)="onRefetch()" class="mt-6 ios-button ios-button-primary">
+            تلاش مجدد
+          </button>
+        }
+      </div>
+    }
+  }
+  @case ('success') {
+    <ng-content></ng-content> <!-- Default slot for success -->
+  }
+}

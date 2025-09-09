@@ -1,0 +1,33 @@
+<style>
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  .notification-item {
+    animation: slideInRight 0.3s ease-out forwards;
+  }
+</style>
+
+<div class="fixed top-4 right-4 z-[100] space-y-3 w-80">
+  @for (notification of notifications(); track notification.id) {
+    <div 
+      class="notification-item ios-card p-4 flex items-start gap-3 border-l-4 shadow-xl"
+      [class]="colorMap[notification.type]">
+      <div class="flex-shrink-0" [class]="iconColorMap[notification.type]">
+        <i [attr.data-lucide]="iconMap[notification.type]" class="w-6 h-6"></i>
+      </div>
+      <div class.bind="flex-grow text-sm font-semibold">
+        {{ notification.message }}
+      </div>
+      <button (click)="close(notification.id)" class="flex-shrink-0 text-gray-500 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+    </div>
+  }
+</div>

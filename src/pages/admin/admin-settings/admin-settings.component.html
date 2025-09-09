@@ -1,0 +1,84 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">تنظیمات</h1>
+
+  <div class="ios-card">
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-4 space-x-reverse px-6" aria-label="Tabs">
+        <a routerLink="/admin/appearance" 
+           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+           [class]="activeTab() === 'appearance' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'">
+          ظاهر برنامه
+        </a>
+        <a routerLink="/admin/seo"
+           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+           [class]="activeTab() === 'seo' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'">
+          تنظیمات سئو
+        </a>
+        <a routerLink="/admin/settings"
+           class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+           [class]="activeTab() === 'settings' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'">
+          عمومی
+        </a>
+      </nav>
+    </div>
+
+    <form (ngSubmit)="saveSettings()" [formGroup]="settingsForm">
+      <div class="p-6">
+        <!-- Appearance Tab Content -->
+        @if (activeTab() === 'appearance') {
+          <div class="space-y-6">
+            <h2 class="text-lg font-semibold text-gray-800">تنظیمات ظاهر</h2>
+            <div>
+              <label for="siteName" class="block text-sm font-medium text-gray-700">نام سایت</label>
+              <input type="text" id="siteName" formControlName="siteName" class="mt-1 block w-full md:w-1/2 border border-gray-300 rounded-lg px-4 py-2">
+            </div>
+             <div>
+              <label for="primaryColor" class="block text-sm font-medium text-gray-700">رنگ اصلی</label>
+              <input type="color" id="primaryColor" formControlName="primaryColor" class="mt-1 block h-10 w-20 p-1 border border-gray-300 rounded-lg">
+            </div>
+          </div>
+        }
+        
+        <!-- SEO Tab Content -->
+        @if (activeTab() === 'seo') {
+          <div class="space-y-6">
+            <h2 class="text-lg font-semibold text-gray-800">تنظیمات سئو</h2>
+            <div>
+              <label for="metaTitle" class="block text-sm font-medium text-gray-700">عنوان متا</label>
+              <input type="text" id="metaTitle" formControlName="metaTitle" class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2">
+            </div>
+            <div>
+              <label for="metaDescription" class="block text-sm font-medium text-gray-700">توضیحات متا</label>
+              <textarea id="metaDescription" formControlName="metaDescription" rows="4" class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2"></textarea>
+            </div>
+          </div>
+        }
+
+        <!-- General Settings Tab Content -->
+        @if (activeTab() === 'settings') {
+          <div class="space-y-6">
+             <h2 class="text-lg font-semibold text-gray-800">تنظیمات عمومی</h2>
+            <div>
+              <label for="siteEmail" class="block text-sm font-medium text-gray-700">ایمیل پشتیبانی سایت</label>
+              <input type="email" id="siteEmail" formControlName="siteEmail" class="mt-1 block w-full md:w-1/2 border border-gray-300 rounded-lg px-4 py-2">
+            </div>
+            <div class="relative flex items-start">
+              <div class="flex h-6 items-center">
+                <input id="maintenanceMode" formControlName="maintenanceMode" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-600">
+              </div>
+              <div class="mr-3 text-sm leading-6">
+                <label for="maintenanceMode" class="font-medium text-gray-900">حالت تعمیر و نگهداری</label>
+                <p class="text-gray-500">با فعال کردن این گزینه، سایت برای کاربران عادی از دسترس خارج می‌شود.</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="bg-gray-50 px-6 py-4 flex justify-end">
+        <button type="submit" class="ios-button ios-button-primary">ذخیره تنظیمات</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,38 @@
+<div 
+  class="ios-card p-8 flex flex-col h-full"
+  [class.border-2]="plan().isRecommended"
+  [class.border-purple-500]="plan().isRecommended"
+  [class.relative]="plan().isRecommended"
+>
+  @if (plan().isRecommended) {
+    <div class="absolute -top-4 right-1/2 translate-x-1/2 bg-purple-500 text-white text-sm font-semibold px-4 py-1 rounded-full flex items-center gap-2">
+      <i data-lucide="crown" class="w-4 h-4"></i>
+      <span>بیشترین فروش</span>
+    </div>
+  }
+
+  <h3 class="text-2xl font-bold text-gray-900">{{ plan().name }}</h3>
+  <p class="mt-2 text-sm text-gray-600">{{ plan().description }}</p>
+
+  <div class="mt-6">
+      <span class="text-4xl font-extrabold text-gray-900">{{ plan().price }}</span>
+      <span class="text-lg font-medium text-gray-500"> تومان</span>
+  </div>
+  <p class="text-sm text-gray-500 mt-1">{{ plan().period }}</p>
+
+  <ul class="mt-8 space-y-4 text-sm text-gray-700 flex-grow">
+      @for(feature of plan().features; track feature) {
+          <li class="flex items-start gap-3">
+              <span class="text-green-500 mt-1 shrink-0"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+              <span>{{ feature }}</span>
+          </li>
+      }
+  </ul>
+  
+  <button 
+    class="ios-button mt-8 w-full text-md"
+    [class]="plan().isRecommended ? 'bg-purple-600 text-white hover:bg-purple-700' : 'ios-button-primary'"
+  >
+    انتخاب و پرداخت
+  </button>
+</div>

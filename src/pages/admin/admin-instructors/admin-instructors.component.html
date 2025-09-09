@@ -1,0 +1,55 @@
+<div class="ios-card">
+  <div class="p-5 border-b flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">مدیریت مدرسین و تحلیلگران</h1>
+      <p class="text-sm text-gray-500 mt-1">لیست تمام تولیدکنندگان محتوا.</p>
+    </div>
+    <button class="ios-button ios-button-primary flex items-center gap-2">
+      <i data-lucide="plus" class="w-5 h-5"></i>
+      <span>افزودن</span>
+    </button>
+  </div>
+  <div class="min-h-[400px]">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">نام</th>
+            <th scope="col" class="px-6 py-3">نوع</th>
+            <th scope="col" class="px-6 py-3">تخصص</th>
+            <th scope="col" class="px-6 py-3">تعداد محتوا</th>
+            <th scope="col" class="px-6 py-3">دنبال کنندگان</th>
+            <th scope="col" class="px-6 py-3">اقدامات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of instructors(); track item.id) {
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                <div class="flex items-center gap-3">
+                  <img class="w-10 h-10 rounded-full object-cover" [src]="item.imageUrl" [alt]="item.name">
+                  <span>{{ item.name }}</span>
+                </div>
+              </th>
+              <td class="px-6 py-4">
+                <span class="px-2 py-1 text-xs font-medium rounded-full" [class]="getTypeClass(item.type)">
+                  {{ item.type }}
+                </span>
+              </td>
+              <td class="px-6 py-4">{{ item.specialty }}</td>
+              <td class="px-6 py-4">{{ item.contentCount }}</td>
+              <td class="px-6 py-4">{{ item.followers }}</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-4">
+                   <a [routerLink]="['/profile/instructor', item.id]" class="font-medium text-green-600 hover:underline">مشاهده پروفایل</a>
+                  <button class="font-medium text-blue-600 hover:underline">ویرایش</button>
+                  <button (click)="deleteInstructor(item)" class="font-medium text-red-600 hover:underline">حذف</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

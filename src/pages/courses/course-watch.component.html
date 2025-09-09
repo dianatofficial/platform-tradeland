@@ -1,0 +1,103 @@
+<app-query-state [status]="status()" [error]="error()">
+  <div slot="loading">
+    <div class="flex justify-center items-center h-96">
+      <svg class="animate-spin h-10 w-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8
+ 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div slot="error">
+    <div class="text-center py-20">
+      <div class="ios-card max-w-lg mx-auto p-8">
+        <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto"></i>
+        <h3 class="mt-4 text-xl font-bold text-gray-800">خطا در بارگذاری</h3>
+        <p class="mt-2 text-gray-600">{{ error() }}</p>
+        <a routerLink="/courses" class="ios-button ios-button-primary mt-6">بازگشت به لیست دوره ها</a>
+      </div>
+    </div>
+  </div>
+
+  @if (course(); as course) {
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Breadcrumbs -->
+    <app-breadcrumb [items]="breadcrumbs()"></app-breadcrumb>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <!-- Video Player and Content -->
+      <main class="lg:col-span-2">
+        <div class="ios-card overflow-hidden">
+          <div class="aspect-video bg-black">
+            @if(currentLesson()?.videoUrl; as videoUrl) {
+                <video [src]="videoUrl" controls class="w-full h-full" autoplay>
+                    Your browser does not support the video tag.
+                </video>
+            } @else {
+                <div class="w-full h-full flex items-center justify-center text-white text-center p-4">
+                    @if (currentLesson()) {
+                      <span>ویدیویی برای این جلسه وجود ندارد.</span>
+                    } @else {
+                      <span>جلسه مورد نظر یافت نشد. لطفا از لیست کنار صفحه یک جلسه را انتخاب کنید.</span>
+                    }
+                </div>
+            }
+          </div>
+          @if(currentLesson(); as lesson) {
+            <div class="p-6">
+              <h1 class="text-2xl font-bold text-gray-900">{{ lesson.title }}</h1>
+              <p class="text-sm text-gray-500 mt-2">بخشی از دوره: {{ course.title }}</p>
+            </div>
+          }
+        </div>
+      </main>
+
+      <!-- Curriculum Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="ios-card p-4 h-[calc(100vh-10rem)] overflow-y-auto">
+          <h2 class="text-xl font-bold mb-4">جلسات دوره</h2>
+          <div class="space-y-4">
+            @for(section of course.syllabus; track section.sectionTitle) {
+              <div>
+                <h3 class="font-bold text-gray-800 mb-2">{{ section.sectionTitle }}</h3>
+                <ul class="space-y-1">
+                  @for(lesson of section.lessons; track lesson.id) {
+                    <li>
+                      <a 
+                        [routerLink]="['/courses', course.id, 'watch', lesson.id]"
+                        class="flex justify-between items-center p-3 rounded-lg transition-colors"
+                        [class.bg-blue-100]="lesson.id === currentLessonId()"
+                        [class.hover:bg-gray-100]="lesson.id !== currentLessonId()"
+                      >
+                        <div class="flex items-center gap-3 text-sm" [class.text-gray-800]="lesson.id === currentLessonId()" [class.text-gray-600]="lesson.id !== currentLessonId()">
+                          @if(lesson.isFreePreview) {
+                            <span class="text-blue-500 shrink-0"><i data-lucide="play-circle" class="w-5 h-5"></i></span>
+                          } @else {
+                            <span class="text-gray-400 shrink-0"><i data-lucide="lock" class="w-5 h-5"></i></span>
+                          }
+                          <span class="font-medium">{{ lesson.title }}</span>
+                        </div>
+                        <span class="text-xs text-gray-500 shrink-0">{{ lesson.duration }}</span>
+                      </a>
+                    </li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+  } @else {
+    <div class="text-center py-20">
+      <div class="ios-card max-w-lg mx-auto p-8">
+          <i data-lucide="search-x" class="w-12 h-12 text-gray-400 mx-auto"></i>
+          <h3 class="mt-4 text-xl font-bold text-gray-800">دوره یافت نشد</h3>
+          <p class="mt-2 text-gray-600">دوره‌ای که به دنبال آن بودید یافت نشد. ممکن است حذف شده یا آدرس آن تغییر کرده باشد.</p>
+          <a routerLink="/courses" class="ios-button ios-button-primary mt-6">بازگشت به لیست دوره ها</a>
+      </div>
+    </div>
+  }
+</app-query-state>

@@ -1,0 +1,28 @@
+<nav aria-label="Breadcrumb">
+  <ol class="flex items-center gap-2 text-sm flex-wrap">
+    @for (item of items(); track item.label; let i = $index; let last = $last) {
+      <li>
+        @if (!last && item.link) {
+          <a [routerLink]="item.link" 
+             class="block px-3 py-1 rounded-lg transition-colors"
+             [class]="theme() === 'light' ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-gray-700 text-gray-200 hover:bg-gray-600'">
+            {{ item.label }}
+          </a>
+        } @else {
+          <span 
+            class="block px-3 py-1 rounded-lg font-semibold truncate max-w-sm"
+            [class]="theme() === 'light' ? 'bg-blue-100 text-blue-700' : 'bg-blue-500 text-white'">
+            {{ item.label }}
+          </span>
+        }
+      </li>
+      @if (!last) {
+        <li>
+          <span [class]="theme() === 'light' ? 'text-gray-400' : 'text-gray-500'">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </span>
+        </li>
+      }
+    }
+  </ol>
+</nav>

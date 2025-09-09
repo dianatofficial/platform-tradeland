@@ -1,0 +1,60 @@
+<app-query-state [status]="status()" [error]="error()">
+  <div slot="loading">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar Skeleton -->
+        <div class="lg:col-span-1">
+          <div class="ios-card p-6 animate-pulse">
+            <div class="w-24 h-24 bg-gray-200 rounded-full mx-auto"></div>
+            <div class="h-6 bg-gray-200 rounded-md w-3/4 mx-auto mt-4"></div>
+            <div class="h-4 bg-gray-200 rounded-md w-1/2 mx-auto mt-2"></div>
+            <div class="h-10 bg-gray-200 rounded-lg w-full mt-6"></div>
+          </div>
+        </div>
+        <!-- Main Content Skeleton -->
+        <div class="lg:col-span-3 space-y-6">
+          <app-channel-post-skeleton></app-channel-post-skeleton>
+          <app-channel-post-skeleton></app-channel-post-skeleton>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (channel(); as channel) {
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <app-breadcrumb [items]="breadcrumbs()"></app-breadcrumb>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Sidebar -->
+        <aside class="lg:col-span-1">
+          <div class="ios-card p-6 text-center sticky top-24">
+            <img [src]="channel.imageUrl" [alt]="channel.name" class="w-24 h-24 rounded-full mx-auto object-cover ring-4 ring-white shadow-md">
+            <h1 class="mt-4 text-xl font-bold text-gray-800">{{ channel.name }}</h1>
+            <p class="mt-1 text-sm text-blue-600 font-semibold">{{ channel.specialty }}</p>
+            <p class="mt-2 text-xs text-gray-500">{{ formatFollowers(channel.followers) }} دنبال کننده</p>
+            <p class="mt-4 text-sm text-gray-600 leading-relaxed">{{ channel.bio }}</p>
+            
+            <button class="mt-6 ios-button ios-button-primary w-full flex items-center justify-center gap-2">
+              <i data-lucide="plus" class="w-5 h-5"></i>
+              <span>عضویت در کانال</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="lg:col-span-3">
+          <div class="space-y-6">
+            @for (post of posts(); track post.id) {
+              <app-channel-post [post]="post"></app-channel-post>
+            } @empty {
+              <div class="ios-card p-8 text-center">
+                <i data-lucide="message-square-off" class="w-12 h-12 text-gray-400 mx-auto"></i>
+                <p class="mt-4 text-gray-600">هنوز پستی در این کانال منتشر نشده است.</p>
+              </div>
+            }
+          </div>
+        </main>
+      </div>
+    </div>
+  }
+</app-query-state>

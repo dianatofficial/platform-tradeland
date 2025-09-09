@@ -1,0 +1,56 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  <!-- Page Header -->
+  <app-page-header
+    title="محصولات دانلودی"
+    subtitle="کتاب ها، جزوات و ابزارهای کاربردی برای ارتقای سطح معاملات شما.">
+  </app-page-header>
+
+  <!-- Filter and Search Bar -->
+  <div class="ios-card p-4 mb-8 flex flex-col md:flex-row gap-4 items-center">
+    <div class="relative flex-grow w-full">
+      <input 
+        type="text" 
+        placeholder="جستجوی محصول..." 
+        [value]="searchTerm()"
+        (input)="onSearch($event)"
+        class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+      <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+        <i data-lucide="search" class="w-5 h-5"></i>
+      </span>
+    </div>
+    <select (change)="onTypeChange($event)" class="w-full md:w-auto border border-gray-300 rounded-lg px-4 py-2 bg-white">
+        <option value="all">همه محصولات</option>
+        @for(type of productTypes(); track type) {
+          <option [value]="type">{{type}}</option>
+        }
+    </select>
+  </div>
+
+  <!-- Content Area -->
+  <div class="min-h-[400px]">
+    <app-query-state [status]="status()" [error]="error()" (refetch)="refetch()">
+      <div slot="loading">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          @for (_ of [1,2,3,4,5,6,7,8,9,10]; track $index) {
+            <app-product-card-skeleton></app-product-card-skeleton>
+          }
+        </div>
+      </div>
+      
+      <!-- Success content in default slot -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        @for (product of filteredProducts(); track product.id) {
+          <app-product-card [product]="product"></app-product-card>
+        } @empty {
+          <div class="col-span-full text-center py-16">
+            <div class="inline-block bg-white p-8 rounded-2xl shadow-sm border">
+              <i data-lucide="package-x" class="w-16 h-16 text-gray-400 mx-auto"></i>
+              <h3 class="mt-4 text-xl font-bold text-gray-800">محصولی یافت نشد</h3>
+              <p class="mt-2 text-gray-600 max-w-sm">متاسفانه هیچ محصولی با فیلترهای انتخابی شما مطابقت ندارد.</p>
+            </div>
+          </div>
+        }
+      </div>
+    </app-query-state>
+  </div>
+</div>

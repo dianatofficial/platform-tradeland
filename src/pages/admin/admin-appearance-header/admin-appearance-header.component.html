@@ -1,0 +1,20 @@
+<div class="space-y-6 max-w-2xl">
+  <div>
+    <h2 class="text-lg font-semibold text-gray-800">تنظیمات هدر</h2>
+    <p class="text-sm text-gray-500 mt-1">عناصر اصلی هدر سایت را مدیریت کنید.</p>
+  </div>
+  
+  <div class="border border-gray-200 rounded-lg p-4">
+    <label for="siteName" class="block text-sm font-medium text-gray-700">نام سایت</label>
+    <input 
+      type="text" 
+      id="siteName" 
+      [(ngModel)]="siteName"
+      class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+    <p class="mt-2 text-xs text-gray-500">این نام در هدر سایت نمایش داده می‌شود.</p>
+  </div>
+
+  <div class="flex justify-end">
+    <button (click)="saveSettings()" class="ios-button ios-button-primary">ذخیره تغییرات</button>
+  </div>
+</div>

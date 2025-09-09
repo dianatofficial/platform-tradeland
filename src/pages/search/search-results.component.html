@@ -1,0 +1,62 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  @if (query()) {
+    <app-page-header 
+      [title]="'نتایج جستجو برای: ' + query()"
+      [subtitle]="totalResults() + ' نتیجه یافت شد'">
+    </app-page-header>
+  } @else {
+    <app-page-header 
+      title="جستجو"
+      subtitle="لطفا عبارتی را برای جستجو در نوار بالای صفحه وارد کنید.">
+    </app-page-header>
+  }
+
+  <div class="space-y-12">
+    <!-- Courses Results -->
+    @if (foundCourses().length > 0) {
+      <section>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">دوره ها ({{ foundCourses().length }})</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (course of foundCourses(); track course.id) {
+            <app-course-card [course]="course"></app-course-card>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Products Results -->
+    @if (foundProducts().length > 0) {
+      <section>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">محصولات ({{ foundProducts().length }})</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          @for (product of foundProducts(); track product.id) {
+            <app-product-card [product]="product"></app-product-card>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- Blog Posts Results -->
+    @if (foundPosts().length > 0) {
+      <section>
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">مقالات بلاگ ({{ foundPosts().length }})</h2>
+        <div class="space-y-8">
+          @for (post of foundPosts(); track post.slug) {
+            <app-blog-post-card [post]="post" layout="list"></app-blog-post-card>
+          }
+        </div>
+      </section>
+    }
+
+    <!-- No Results -->
+    @if (totalResults() === 0 && query()) {
+      <div class="text-center py-16">
+        <div class="inline-block bg-white p-8 rounded-2xl shadow-sm border">
+          <i data-lucide="search-x" class="w-16 h-16 text-gray-400 mx-auto"></i>
+          <h3 class="mt-4 text-xl font-bold text-gray-800">نتیجه‌ای یافت نشد</h3>
+          <p class="mt-2 text-gray-600 max-w-sm">متاسفانه برای عبارت «{{ query() }}» نتیجه‌ای یافت نشد. لطفا عبارت دیگری را امتحان کنید.</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

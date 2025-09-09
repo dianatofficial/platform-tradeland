@@ -1,0 +1,77 @@
+<footer class="bg-gray-50 text-gray-600 border-t pb-24 md:pb-0">
+  <div class="container mx-auto pt-16 pb-12 px-4 sm:px-6 lg:px-8">
+    <!-- Main footer content -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <!-- Branding & Info -->
+      <div class="lg:col-span-4">
+        <a routerLink="/" class="flex items-center gap-2">
+          <i data-lucide="candlestick-chart" class="text-blue-500 w-8 h-8"></i>
+          <span class="text-2xl font-bold text-gray-800">تریدلند</span>
+        </a>
+        <p class="mt-4 text-sm max-w-xs leading-relaxed">
+          پلتفرم جامع آموزش و تحلیل بازارهای مالی برای موفقیت شما.
+        </p>
+         <div class="mt-6 flex space-x-5 space-x-reverse">
+            <a href="#" class="text-gray-400 hover:text-gray-800 transition-colors">
+              <span class="sr-only">Telegram</span>
+              <i data-lucide="send" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-800 transition-colors">
+              <span class="sr-only">Instagram</span>
+              <i data-lucide="instagram" class="w-5 h-5"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-gray-800 transition-colors">
+              <span class="sr-only">Twitter</span>
+              <i data-lucide="twitter" class="w-5 h-5"></i>
+            </a>
+        </div>
+      </div>
+      
+      <!-- Links Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 lg:col-span-5">
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">پلتفرم</h3>
+          <ul class="mt-4 space-y-3">
+            <li><a routerLink="/courses" class="text-base hover:text-gray-900 transition-colors">دوره ها</a></li>
+            <li><a routerLink="/products" class="text-base hover:text-gray-900 transition-colors">محصولات</a></li>
+            <li><a routerLink="/blog" class="text-base hover:text-gray-900 transition-colors">بلاگ</a></li>
+             <li><a routerLink="/news" class="text-base hover:text-gray-900 transition-colors">اخبار</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">ویژه</h3>
+          <ul class="mt-4 space-y-3">
+            <li><a routerLink="/subscriptions" class="text-base hover:text-gray-900 transition-colors">اشتراک ویژه</a></li>
+            <li><a routerLink="/cafe-trade" class="text-base hover:text-gray-900 transition-colors">کافه ترید</a></li>
+          </ul>
+        </div>
+         <div>
+          <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">پشتیبانی</h3>
+          <ul class="mt-4 space-y-3">
+            <li><a href="#" class="text-base hover:text-gray-900 transition-colors">تماس با ما</a></li>
+            <li><a href="#" class="text-base hover:text-gray-900 transition-colors">سوالات متداول</a></li>
+            <li><a href="#" class="text-base hover:text-gray-900 transition-colors">درباره ما</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div class="lg:col-span-3">
+        <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase">عضویت در خبرنامه</h3>
+         <p class="mt-4 text-sm">از آخرین اخبار و تخفیف ها با خبر شوید.</p>
+        <form class="mt-4 flex flex-col sm:flex-row gap-2">
+            <label for="email-address" class="sr-only">آدرس ایمیل</label>
+            <input type="email" name="email-address" id="email-address" autocomplete="email" required class="w-full h-11 px-4 bg-white border border-gray-300 rounded-lg text-gray-800 focus:ring-blue-500 focus:border-blue-500" placeholder="ایمیل شما">
+            <button type="submit" class="ios-button ios-button-primary ios-button-sm flex-shrink-0">
+              عضویت
+            </button>
+          </form>
+      </div>
+    </div>
+    
+    <!-- Bottom Bar -->
+    <div class="mt-16 pt-8 border-t border-gray-200 text-center">
+      <p class="text-sm text-gray-500">&copy; {{ currentYear }} تریدلند. تمام حقوق محفوظ است.</p>
+    </div>
+  </div>
+</footer>

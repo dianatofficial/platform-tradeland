@@ -1,0 +1,40 @@
+<div class="ios-card">
+  <div class="p-5 border-b flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold text-gray-800">کتابخانه رسانه</h1>
+      <p class="text-sm text-gray-500 mt-1">مدیریت تصاویر و فایل‌های آپلود شده.</p>
+    </div>
+    <button class="ios-button ios-button-primary flex items-center gap-2">
+      <i data-lucide="upload" class="w-5 h-5"></i>
+      <span>آپلود جدید</span>
+    </button>
+  </div>
+  <div class="p-5 min-h-[400px]">
+    @if (mediaItems().length > 0) {
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+        @for (item of mediaItems(); track item.id) {
+          <div class="border rounded-lg overflow-hidden group relative">
+            <img [src]="item.url" [alt]="item.filename" class="w-full h-32 object-cover aspect-square">
+            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2 text-white">
+              <p class="text-xs font-semibold truncate">{{ item.filename }}</p>
+              <div class="flex items-center justify-between mt-1">
+                 <button (click)="copyUrl(item.url)" title="کپی آدرس" class="p-1 hover:bg-white/20 rounded-full">
+                    <i data-lucide="clipboard" class="w-4 h-4"></i>
+                 </button>
+                 <button (click)="deleteMediaItem(item)" title="حذف" class="p-1 text-red-400 hover:bg-white/20 rounded-full">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i>
+                 </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <div class="text-center py-10">
+        <i data-lucide="image-off" class="w-12 h-12 text-gray-400 mx-auto"></i>
+        <h3 class="mt-2 text-lg font-semibold text-gray-700">کتابخانه خالی است</h3>
+        <p class="text-sm text-gray-500">برای شروع، یک فایل جدید آپلود کنید.</p>
+      </div>
+    }
+  </div>
+</div>

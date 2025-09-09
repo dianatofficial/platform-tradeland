@@ -1,0 +1,189 @@
+<app-query-state [status]="status()" [error]="error()">
+  <div slot="loading">
+    <div class="flex justify-center items-center h-96">
+      <svg class="animate-spin h-10 w-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+  </div>
+
+  @if(instructor(); as instructor) {
+    <div>
+      <!-- Header Section -->
+      <div class="bg-gray-800">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24 text-center relative">
+          <img [src]="instructor.avatarUrl" [alt]="instructor.fullName" class="w-32 h-32 rounded-full mx-auto object-cover ring-4 ring-gray-700 shadow-lg">
+          <h1 class="mt-4 text-4xl font-extrabold text-white">{{ instructor.fullName }}</h1>
+          @if(instructor.specialty) {
+            <p class="mt-2 text-lg text-blue-300 font-semibold">{{ instructor.specialty }}</p>
+          }
+          <!-- Social Links -->
+          @if(instructor.socialLinks) {
+            <div class="mt-4 flex items-center justify-center gap-4">
+              @if(instructor.socialLinks.telegram) {
+                <a [href]="instructor.socialLinks.telegram" class="text-gray-300 hover:text-white"><i data-lucide="send" class="w-6 h-6"></i></a>
+              }
+              @if(instructor.socialLinks.instagram) {
+                <a [href]="instructor.socialLinks.instagram" class="text-gray-300 hover:text-white"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+              }
+              @if(instructor.socialLinks.twitter) {
+                <a [href]="instructor.socialLinks.twitter" class="text-gray-300 hover:text-white"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+              }
+            </div>
+          }
+        </div>
+      </div>
+      
+      <!-- Stats and Tabs Bar -->
+      <div class="bg-white border-b sticky top-[68px] z-20">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex flex-col sm:flex-row items-center justify-between -mt-12">
+            <!-- Stats -->
+            <div class="ios-card p-4 flex items-center gap-6 shadow-xl">
+              <div class="text-center">
+                <p class="text-2xl font-bold">{{ createdCourses().length }}</p>
+                <p class="text-sm text-gray-500">دوره</p>
+              </div>
+              <div class="border-r h-10"></div>
+              <div class="text-center">
+                <p class="text-2xl font-bold">{{ instructor.followersCount }}</p>
+                <p class="text-sm text-gray-500">دنبال کننده</p>
+              </div>
+              <div class="border-r h-10"></div>
+               <div class="text-center">
+                <p class="text-2xl font-bold">{{ instructor.studentRating }}</p>
+                <p class="text-sm text-gray-500">امتیاز</p>
+              </div>
+            </div>
+            <!-- Tabs -->
+            <div class="flex items-center gap-2 mt-4 sm:mt-0">
+              <button (click)="selectTab('courses')" [class]="activeTab() === 'courses' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'" class="px-4 py-2 text-sm transition">دوره ها</button>
+              <button (click)="selectTab('blog')" [class]="activeTab() === 'blog' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'" class="px-4 py-2 text-sm transition">مقالات</button>
+              @if(isOwnProfile() && channel()) {
+                <button (click)="selectTab('channel')" [class]="activeTab() === 'channel' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'" class="px-4 py-2 text-sm transition">کانال من</button>
+              }
+              <button (click)="selectTab('about')" [class]="activeTab() === 'about' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'" class="px-4 py-2 text-sm transition">درباره</button>
+              <button (click)="selectTab('reviews')" [class]="activeTab() === 'reviews' ? 'text-blue-600 font-semibold' : 'text-gray-600 hover:text-blue-600'" class="px-4 py-2 text-sm transition">نظرات</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        <div class="max-w-4xl mx-auto">
+           @switch (activeTab()) {
+            @case ('courses') {
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                @for(course of createdCourses(); track course.id) {
+                  <app-course-card [course]="course"></app-course-card>
+                } @empty {
+                  <div class="sm:col-span-2 text-center py-10 ios-card">
+                    <i data-lucide="book-open-off" class="w-12 h-12 text-gray-400 mx-auto"></i>
+                    <p class="mt-4 text-gray-600">این مدرس هنوز دوره ای منتشر نکرده است.</p>
+                  </div>
+                }
+              </div>
+            }
+            @case ('blog') {
+               <div class="space-y-8">
+                @for (post of writtenPosts(); track post.slug) {
+                  <app-blog-post-card [post]="post" layout="list"></app-blog-post-card>
+                } @empty {
+                  <div class="text-center py-10 ios-card">
+                    <i data-lucide="file-text-x" class="w-12 h-12 text-gray-400 mx-auto"></i>
+                    <p class="mt-4 text-gray-600">این مدرس هنوز مقاله‌ای منتشر نکرده است.</p>
+                  </div>
+                }
+              </div>
+            }
+            @case ('about') {
+              <div class="ios-card p-6">
+                 <h2 class="text-2xl font-bold text-gray-800 mb-4">درباره {{ instructor.fullName }}</h2>
+                 @if(instructor.bio) {
+                   <div class="prose max-w-none text-gray-700 leading-relaxed" [innerHTML]="instructor.bio"></div>
+                 } @else {
+                    <p class="text-gray-600">اطلاعاتی برای نمایش وجود ندارد.</p>
+                 }
+              </div>
+            }
+             @case ('reviews') {
+              <div class="ios-card p-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6">نظرات دانشجویان</h2>
+                <div class="space-y-6">
+                  @for (review of allReviews(); track $index) {
+                    <div class="flex items-start gap-4 border-b pb-4 last:border-b-0 last:pb-0">
+                      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600 flex-shrink-0">
+                          {{ review.name.charAt(0) }}
+                      </div>
+                      <div>
+                          <div class="flex items-center justify-between">
+                            <div>
+                              <h4 class="font-bold">{{ review.name }}</h4>
+                              <p class="text-xs text-gray-500">برای دوره: <span class="font-semibold text-blue-600">{{ review.courseTitle }}</span></p>
+                            </div>
+                            <div class="flex items-center text-yellow-400">
+                                @for(i of getStars(review.rating); track $index) { <i data-lucide="star" class="w-5 h-5 lucide-filled"></i> }
+                            </div>
+                          </div>
+                          <p class="mt-2 text-gray-700 text-sm">{{ review.comment }}</p>
+                      </div>
+                    </div>
+                  } @empty {
+                    <div class="text-center text-gray-500 py-8">
+                      <i data-lucide="message-square-x" class="w-10 h-10 mx-auto"></i>
+                      <p class="mt-2">هنوز نظری برای این مدرس ثبت نشده است.</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            @case ('channel') {
+              @if(isOwnProfile() && channel()) {
+                <div class="space-y-8">
+                  <!-- New Post Form -->
+                  <form (ngSubmit)="submitPost()" [formGroup]="newPostForm" class="ios-card p-5">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">پست جدید در کانال {{ channel()?.name }}</h2>
+                    <div class="space-y-4">
+                      <div>
+                        <label for="content" class="sr-only">محتوای پست</label>
+                        <app-rich-text-editor formControlName="content"></app-rich-text-editor>
+                      </div>
+                      <div>
+                        <label for="imageUrl" class="block text-sm font-medium text-gray-700">آدرس تصویر (اختیاری)</label>
+                        <input type="text" id="imageUrl" formControlName="imageUrl" class="mt-1 block w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500 ltr text-left" placeholder="https://example.com/image.jpg">
+                      </div>
+                    </div>
+                    <div class="mt-5 flex justify-end">
+                      <button type="submit" [disabled]="newPostForm.invalid" class="ios-button ios-button-primary disabled:opacity-50">ارسال پست</button>
+                    </div>
+                  </form>
+
+                  <!-- Recent Posts -->
+                  <div>
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">پست های اخیر</h2>
+                    <div class="space-y-6">
+                      @for (post of channelPosts(); track post.id) {
+                        <app-channel-post [post]="post"></app-channel-post>
+                      } @empty {
+                        <div class="ios-card p-8 text-center">
+                          <p class="text-gray-600">هنوز پستی در کانال خود منتشر نکرده‌اید.</p>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <div class="ios-card p-8 text-center">
+                  <i data-lucide="lock" class="w-12 h-12 text-gray-400 mx-auto"></i>
+                  <p class="mt-4 text-gray-600">محتوای این بخش فقط برای صاحب پروفایل قابل مشاهده است.</p>
+                </div>
+              }
+            }
+          }
+        </div>
+      </div>
+    </div>
+  }
+</app-query-state>

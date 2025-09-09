@@ -1,0 +1,14 @@
+
+@if (!isAdminRoute()) {
+  <div class="flex flex-col min-h-screen">
+    <app-header></app-header>
+    <main class="flex-grow pb-16 md:pb-0">
+      <router-outlet></router-outlet>
+    </main>
+    <app-footer></app-footer>
+  </div>
+  <app-mobile-nav></app-mobile-nav>
+} @else {
+  <router-outlet></router-outlet>
+}
+<app-notification></app-notification>

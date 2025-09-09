@@ -1,0 +1,67 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  <!-- Page Header -->
+  <app-page-header
+    title="اخبار و تحلیل بازار"
+    subtitle="در لحظه از مهم ترین اخبار و تحلیل های بازارهای مالی مطلع شوید.">
+  </app-page-header>
+
+  <!-- Categories Filter -->
+  <div class="mb-4">
+    <div class="ios-card p-3 flex justify-center flex-wrap gap-2">
+      @for(category of categories(); track category.id) {
+        <button (click)="selectCategory(category.id)" 
+                [class]="activeCategory() === category.id ? 'ios-button-primary' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'"
+                class="ios-button ios-button-sm">
+          {{ category.name }}
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Sub-categories Filter -->
+  @if(activeCategory() !== 'all' && subCategories[activeCategory()]) {
+    <div class="mb-8">
+        <div class="flex justify-center flex-wrap gap-2">
+            @for(sub of subCategories[activeCategory()]; track sub) {
+            <button (click)="selectSubCategory(sub)"
+                    [class]="activeSubCategory() === sub ? 'text-blue-600 ring-2 ring-blue-500' : 'text-gray-600 bg-white ring-1 ring-gray-300'"
+                    class="px-4 py-1 text-sm font-medium rounded-full transition-all">
+                {{ sub }}
+            </button>
+            }
+        </div>
+    </div>
+  }
+
+  <!-- News List -->
+  <div class="max-w-4xl mx-auto min-h-[400px]">
+    <app-query-state [status]="status()" [error]="error()" (refetch)="refetch()">
+      <div slot="loading">
+        <div class="ios-card p-4">
+          <div class="divide-y divide-gray-200">
+            @for (_ of [1,2,3,4,5]; track $index) {
+              <app-news-card-skeleton></app-news-card-skeleton>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Success content in default slot -->
+      <div class="ios-card p-4">
+        <div class="divide-y divide-gray-200">
+          @for (item of filteredNews(); track item.slug) {
+            <app-news-card [item]="item" layout="full"></app-news-card>
+          } @empty {
+            <div class="text-center py-10">
+                <div class="inline-block bg-white py-8">
+                  <i data-lucide="newspaper-x" class="w-16 h-16 text-gray-400 mx-auto"></i>
+                  <h3 class="mt-4 text-xl font-bold text-gray-800">خبری یافت نشد</h3>
+                  <p class="mt-2 text-gray-600 max-w-sm">در این دسته بندی خبری برای نمایش وجود ندارد.</p>
+                </div>
+            </div>
+          }
+        </div>
+      </div>
+    </app-query-state>
+  </div>
+</div>

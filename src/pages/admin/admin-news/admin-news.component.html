@@ -1,0 +1,72 @@
+
+
+<div class="ios-card">
+  <div class="p-5 border-b flex items-center justify-between flex-wrap gap-4">
+    <div class="flex-1 min-w-0">
+      <h1 class="text-xl font-bold text-gray-800">مدیریت اخبار</h1>
+      <p class="text-sm text-gray-500 mt-1 truncate">لیست تمام اخبار و تحلیل‌ها.</p>
+    </div>
+     <div class="flex items-center gap-4 w-full sm:w-auto flex-wrap md:flex-nowrap">
+       <div class="relative w-full sm:w-56">
+        <input 
+          type="text" 
+          placeholder="جستجوی خبر..." 
+          (input)="onSearch($event)"
+          class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </span>
+      </div>
+      <div class="w-full sm:w-48">
+        <select (change)="onCategoryChange($event)" class="w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:ring-blue-500 focus:border-blue-500">
+            @for(cat of categories(); track cat.id) {
+              <option [value]="cat.id">{{ cat.name }}</option>
+            }
+        </select>
+      </div>
+      <a routerLink="/admin/news/new" class="ios-button ios-button-primary flex items-center gap-2 flex-shrink-0">
+        <i data-lucide="plus" class="w-5 h-5"></i>
+        <span>خبر جدید</span>
+      </a>
+    </div>
+  </div>
+  <div class="min-h-[400px]">
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm text-right text-gray-500">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3">#</th>
+            <th scope="col" class="px-6 py-3">عنوان</th>
+            <th scope="col" class="px-6 py-3">دسته</th>
+            <th scope="col" class="px-6 py-3">زیردسته</th>
+            <th scope="col" class="px-6 py-3">منبع</th>
+            <th scope="col" class="px-6 py-3">اقدامات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of newsItems(); track item.slug; let i = $index) {
+            <tr class="bg-white border-b hover:bg-gray-50">
+              <td class="px-6 py-4">{{ i + 1 }}</td>
+              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{ item.title }}</th>
+              <td class="px-6 py-4">{{ item.category }}</td>
+              <td class="px-6 py-4">{{ item.subCategory }}</td>
+              <td class="px-6 py-4">{{ item.source }}</td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <a [routerLink]="['/admin/news/edit', item.slug]" class="font-medium text-blue-600 hover:underline">ویرایش</a>
+                  <button (click)="deleteArticle(item.slug, item.title)" class="font-medium text-red-600 hover:underline">حذف</button>
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="text-center py-10">
+                <h3 class="text-lg font-semibold text-gray-700">هیچ خبری یافت نشد</h3>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

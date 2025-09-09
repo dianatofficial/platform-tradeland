@@ -1,0 +1,137 @@
+<div class="min-h-screen bg-white grid grid-cols-1 lg:grid-cols-2">
+  <!-- Left Side: Image/Branding -->
+  <div class="hidden lg:flex flex-col items-center justify-center bg-gray-800 p-12 text-white text-center">
+    <a routerLink="/" class="flex items-center gap-3">
+        <i data-lucide="candlestick-chart" class="text-blue-400 w-12 h-12"></i>
+        <span class="text-3xl font-bold">تریدلند</span>
+    </a>
+    <img src="https://picsum.photos/seed/register-art/500/500" alt="Trading illustration" class="mt-8 rounded-2xl w-full max-w-sm">
+    <h1 class="mt-8 text-2xl font-bold tracking-tight">به جامعه معامله‌گران ما بپیوندید</h1>
+    <p class="mt-4 max-w-md text-gray-300">
+      ثبت نام کنید و به دنیایی از دانش، تحلیل و ابزارهای معاملاتی پیشرفته دسترسی پیدا کنید.
+    </p>
+  </div>
+
+  <!-- Right Side: Form -->
+  <div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="w-full max-w-md space-y-8">
+      <!-- Header -->
+      <div class="text-center">
+        <h2 class="text-3xl font-extrabold text-gray-900">
+          ایجاد حساب کاربری
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">
+          قبلا ثبت نام کرده‌اید؟
+          <a routerLink="/login" class="font-medium text-blue-600 hover:text-blue-500">
+            وارد شوید
+          </a>
+        </p>
+      </div>
+
+      <!-- Form -->
+      <div class="ios-card p-8">
+        <form class="space-y-6" [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+        
+          @if (errorMessage()) {
+            <div class="bg-red-50 border-l-4 border-red-400 text-red-700 p-4 rounded-lg" role="alert">
+              <p>{{ errorMessage() }}</p>
+            </div>
+          }
+
+          <div>
+            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">نام کامل</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <i data-lucide="user" class="h-5 w-5 text-gray-400"></i>
+              </span>
+              <input id="fullName" type="text" autocomplete="name" required formControlName="fullName"
+                     class="block w-full text-lg pr-10 pl-3 py-3 border border-gray-200 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                     [class.ring-1]="fullName?.invalid && (fullName?.dirty || fullName?.touched)"
+                     [class.ring-red-500]="fullName?.invalid && (fullName?.dirty || fullName?.touched)">
+            </div>
+            @if (fullName?.invalid && (fullName?.dirty || fullName?.touched)) {
+              <div class="mt-1 text-xs text-red-600">
+                @if (fullName?.errors?.['required']) {
+                  <p>نام کامل الزامی است.</p>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">آدرس ایمیل</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <i data-lucide="mail" class="h-5 w-5 text-gray-400"></i>
+              </span>
+              <input id="email" type="email" autocomplete="email" required formControlName="email"
+                     class="block w-full text-lg pr-10 pl-3 py-3 border border-gray-200 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                     [class.ring-1]="email?.invalid && (email?.dirty || email?.touched)"
+                     [class.ring-red-500]="email?.invalid && (email?.dirty || email?.touched)">
+            </div>
+            @if (email?.invalid && (email?.dirty || email?.touched)) {
+              <div class="mt-1 text-xs text-red-600">
+                @if (email?.errors?.['required']) {
+                  <p>ایمیل الزامی است.</p>
+                }
+                @if (email?.errors?.['email']) {
+                  <p>فرمت ایمیل صحیح نیست.</p>
+                }
+              </div>
+            }
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">رمز عبور</label>
+            <div class="relative">
+               <span class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                <i data-lucide="lock" class="h-5 w-5 text-gray-400"></i>
+              </span>
+              <input id="password" type="password" autocomplete="new-password" required formControlName="password"
+                     class="block w-full text-lg pr-10 pl-3 py-3 border border-gray-200 rounded-xl placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                     [class.ring-1]="password?.invalid && (password?.dirty || password?.touched)"
+                     [class.ring-red-500]="password?.invalid && (password?.dirty || password?.touched)">
+            </div>
+             @if (password?.invalid && (password?.dirty || password?.touched)) {
+              <div class="mt-1 text-xs text-red-600">
+                @if (password?.errors?.['required']) {
+                  <p>رمز عبور الزامی است.</p>
+                }
+                 @if (password?.errors?.['minlength']) {
+                  <p>رمز عبور باید حداقل ۸ کاراکتر باشد.</p>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="flex items-start">
+            <div class="flex h-6 items-center">
+              <input id="terms" name="terms" type="checkbox" required formControlName="terms" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+            </div>
+            <div class="mr-3 text-sm">
+              <label for="terms" class="text-gray-600">
+                من با <a href="#" class="font-medium text-blue-600 hover:underline">شرایط خدمات</a> موافقت می‌کنم.
+              </label>
+            </div>
+          </div>
+
+
+          <div>
+            <button type="submit" [disabled]="registerForm.invalid || isLoading()"
+                    class="w-full ios-button ios-button-primary !py-3.5 text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+              @if (isLoading()) {
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>در حال ثبت نام...</span>
+              } @else {
+                <span>ثبت نام</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

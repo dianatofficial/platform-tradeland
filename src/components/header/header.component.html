@@ -1,0 +1,155 @@
+
+<header class="sticky top-0 z-50 ios-glass-morph">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Top Row -->
+    <div class="flex items-center justify-between py-2 gap-4">
+      <!-- Left Side: Social links -->
+      <div class="items-center gap-x-4 text-gray-500 flex-shrink-0 hidden md:flex">
+        <a href="#" class="hover:text-blue-600 transition-colors">
+          <span class="sr-only">Telegram</span>
+          <i data-lucide="send" class="w-5 h-5"></i>
+        </a>
+        <a href="#" class="hover:text-blue-600 transition-colors">
+          <span class="sr-only">Instagram</span>
+          <i data-lucide="instagram" class="w-5 h-5"></i>
+        </a>
+        <a href="#" class="hover:text-blue-600 transition-colors">
+          <span class="sr-only">Twitter</span>
+          <i data-lucide="twitter" class="w-5 h-5"></i>
+        </a>
+      </div>
+
+      <!-- Center: Search Bar -->
+      <div class="flex-1 min-w-0 flex justify-center">
+        <div class="w-full max-w-sm">
+          <form class="relative" (submit)="onSearchSubmit($event)">
+            <label for="topbar-search" class="sr-only">جستجو</label>
+            <input id="topbar-search" type="search" placeholder="جستجو..." class="w-full bg-black/5 border-transparent focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 rounded-full py-2 pr-10 pl-4 text-sm transition-all duration-300" [value]="searchTerm()" (input)="onSearchInput($event)">
+            <div class="absolute right-0 top-0 bottom-0 px-3 flex items-center text-gray-400 pointer-events-none">
+              <i data-lucide="search" class="w-5 h-5"></i>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Right Side: Login/Profile -->
+      <div class="flex items-center flex-shrink-0">
+        @if (!isAuthenticated()) {
+          <a routerLink="/login" class="ios-button ios-button-primary ios-button-sm">
+            <span>ورود</span>
+          </a>
+        } @else {
+          <div class="relative">
+            <button (click)="toggleProfileMenu($event)" id="profile-menu-button" type="button" class="flex items-center gap-2 text-sm font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              <img class="h-8 w-8 rounded-full object-cover" [src]="currentUser()?.avatarUrl" alt="Avatar">
+            </button>
+            
+            @if (isProfileMenuOpen()) {
+              <div class="origin-top-left absolute left-0 mt-2 w-56 rounded-xl shadow-lg py-2 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div class="px-3 py-2 border-b">
+                  <p class="text-sm font-semibold text-gray-800">{{ currentUser()?.fullName }}</p>
+                  <p class="text-xs text-gray-500 truncate">{{ currentUser()?.email }}</p>
+                </div>
+                <div class="py-1">
+                  @if (currentUser()?.role === 'Admin') {
+                    <a routerLink="/admin/dashboard" (click)="closeProfileMenu()" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <i data-lucide="layout-dashboard" class="w-5 h-5 text-gray-500"></i>
+                      <span>داشبورد مدیریت</span>
+                    </a>
+                  }
+                  <a routerLink="/profile" (click)="closeProfileMenu()" class="flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <i data-lucide="user-circle" class="w-5 h-5 text-gray-500"></i>
+                    <span>پروفایل من</span>
+                  </a>
+                </div>
+                <div class="border-t">
+                  <button (click)="logout()" class="w-full text-right flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    <span>خروج</span>
+                  </button>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+    
+    <!-- Bottom Row: Main Navigation -->
+    <div class="flex items-center justify-between h-14">
+      <!-- Logo and Site Name -->
+      <a routerLink="/" class="flex-shrink-0 flex items-center gap-2">
+        <i data-lucide="candlestick-chart" class="text-blue-500 w-8 h-8"></i>
+        <span class="text-xl font-bold text-gray-800">{{ siteName() }}</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex md:items-center md:space-x-2 md:space-x-reverse">
+        @for (link of navLinks; track link.path) {
+          <a [routerLink]="link.path" routerLinkActive="text-blue-600 bg-blue-500/10" 
+             [routerLinkActiveOptions]="{exact: true}"
+             class="text-gray-600 hover:text-blue-600 px-4 py-2 text-sm font-semibold rounded-full transition-colors">
+            {{ link.label }}
+          </a>
+        }
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button (click)="toggleMenu()" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-gray-900 hover:bg-gray-100 focus:outline-none">
+          <span class="sr-only">باز کردن منو</span>
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Full-screen Menu -->
+  @if (isMenuOpen()) {
+    <div class="fixed inset-0 z-50 bg-white/80 backdrop-blur-lg md:hidden animate-fade-in">
+      <div class="flex flex-col h-full">
+        <!-- Menu Header -->
+        <div class="flex items-center justify-between p-4 border-b">
+           <a routerLink="/" (click)="toggleMenu()" class="flex-shrink-0 flex items-center gap-2">
+            <i data-lucide="candlestick-chart" class="text-blue-500 w-8 h-8"></i>
+            <span class="text-xl font-bold text-gray-800">{{ siteName() }}</span>
+          </a>
+          <button (click)="toggleMenu()" type="button" class="p-2 rounded-md text-gray-700">
+            <i data-lucide="x" class="w-6 h-6"></i>
+          </button>
+        </div>
+        
+        <!-- Menu Links -->
+        <div class="flex-grow p-4">
+          <nav class="flex flex-col space-y-2">
+            @for (link of navLinks; track link.path) {
+              <a [routerLink]="link.path" routerLinkActive="text-blue-600 bg-blue-500/10" [routerLinkActiveOptions]="{exact: true}" (click)="toggleMenu()" class="text-gray-700 hover:bg-gray-100 block px-4 py-3 rounded-lg text-lg font-semibold">
+                {{ link.label }}
+              </a>
+            }
+          </nav>
+        </div>
+        
+        <!-- Menu Footer -->
+        @if (isAuthenticated()) {
+          <div class="p-4 border-t">
+            <div class="flex items-center gap-3">
+              <img class="h-12 w-12 rounded-full object-cover" [src]="currentUser()?.avatarUrl" alt="Avatar">
+              <div>
+                <div class="text-base font-semibold text-gray-800">{{ currentUser()?.fullName }}</div>
+                <div class="text-sm text-gray-500">{{ currentUser()?.email }}</div>
+              </div>
+            </div>
+            <div class="mt-4 grid grid-cols-2 gap-2">
+               @if (currentUser()?.role === 'Admin') {
+                <a routerLink="/admin/dashboard" (click)="toggleMenu()" class="px-3 py-2 rounded-md text-center font-medium text-gray-700 bg-gray-100 hover:bg-gray-200">داشبورد</a>
+              }
+              <a routerLink="/profile" (click)="toggleMenu()" class="px-3 py-2 rounded-md text-center font-medium text-gray-700 bg-gray-100 hover:bg-gray-200">پروفایل</a>
+              <a href="#" (click)="logout()" class="px-3 py-2 rounded-md text-center font-medium text-red-600 bg-red-50 hover:bg-red-100 col-span-2">خروج</a>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</header>

@@ -1,0 +1,15 @@
+<a [routerLink]="['/cafe-trade', analyst().id]" class="block h-full group">
+  <div class="ios-card p-5 h-full flex flex-col group-hover:border-blue-500 transition-all">
+      <div class="flex items-center gap-4">
+          <img class="w-20 h-20 rounded-full object-cover" [src]="analyst().imageUrl" [alt]="analyst().name">
+          <div class="flex-1">
+              <h3 class="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors">{{ analyst().name }}</h3>
+              <p class="text-sm text-gray-600">{{ analyst().specialty }}</p>
+              <p class="text-xs text-gray-500 mt-1">{{ formatFollowers(analyst().followers) }} دنبال کننده</p>
+          </div>
+      </div>
+      <div class="mt-5 flex-grow flex flex-col justify-end">
+          <div class="ios-button ios-button-primary w-full text-center">مشاهده کانال</div>
+      </div>
+  </div>
+</a>

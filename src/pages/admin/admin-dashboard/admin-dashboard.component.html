@@ -1,0 +1,64 @@
+<div>
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">داشبورد</h1>
+  
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    @for (stat of stats(); track stat.title) {
+      <div class="ios-card p-5 flex items-start justify-between relative overflow-hidden">
+        <div class="absolute top-0 right-0 left-0 h-1" [class]="accentColorMap[stat.color]"></div>
+        <div>
+          <p class="text-sm font-medium text-gray-500">{{ stat.title }}</p>
+          <p class="text-3xl font-bold text-gray-800 mt-1">{{ stat.value }}</p>
+          <div class="mt-2 flex items-center text-sm" [class]="stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'">
+            <i [attr.data-lucide]="stat.changeType === 'increase' ? 'arrow-up' : 'arrow-down'" class="w-4 h-4 ml-1"></i>
+            <span>{{ stat.change }} نسبت به ماه قبل</span>
+          </div>
+        </div>
+        <div class="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+             [class]="containerColorMap[stat.color]">
+          <i [attr.data-lucide]="stat.icon" class="w-6 h-6"></i>
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Recent Activity & Chart placeholder -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <div class="lg:col-span-2 ios-card p-5">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">آمار فروش ۶ ماه اخیر</h2>
+      <div #chartContainer class="w-full h-64"></div>
+    </div>
+    <div class="ios-card p-5">
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">فعالیت های اخیر</h2>
+      <ul class="space-y-4">
+        <li class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+            <i data-lucide="user-plus" class="w-5 h-5 text-blue-600"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-800">ثبت نام کاربر جدید: رضا حسینی</p>
+            <p class="text-xs text-gray-500">۲ دقیقه پیش</p>
+          </div>
+        </li>
+        <li class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+            <i data-lucide="shopping-cart" class="w-5 h-5 text-green-600"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-800">خرید دوره "تحلیل تکنیکال"</p>
+            <p class="text-xs text-gray-500">۱۵ دقیقه پیش</p>
+          </div>
+        </li>
+         <li class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center">
+            <i data-lucide="file-text" class="w-5 h-5 text-amber-600"></i>
+          </div>
+          <div>
+            <p class="text-sm font-medium text-gray-800">مقاله جدید "روانشناسی بازار" منتشر شد</p>
+            <p class="text-xs text-gray-500">۱ ساعت پیش</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

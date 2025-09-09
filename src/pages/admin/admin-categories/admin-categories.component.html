@@ -1,0 +1,78 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">مدیریت دسته‌بندی‌ها</h1>
+
+  <div class="ios-card">
+    <!-- Tabs -->
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex space-x-4 space-x-reverse px-6" aria-label="Tabs">
+        @for(tab of tabs; track tab.type) {
+          <button 
+             (click)="selectTab(tab.type)"
+             class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+             [class]="activeTab() === tab.type ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'">
+            {{ tab.label }}
+          </button>
+        }
+      </nav>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="p-6">
+      <!-- Add Category Form -->
+      <div class="mb-6">
+        <h2 class="text-lg font-semibold text-gray-800 mb-2">افزودن دسته‌بندی جدید</h2>
+        <div class="flex items-center gap-2">
+          <input 
+            type="text" 
+            [(ngModel)]="newCategoryName"
+            (keyup.enter)="addCategory()"
+            placeholder="نام دسته‌بندی..."
+            class="flex-grow border border-gray-300 rounded-lg px-4 py-2 focus:ring-blue-500 focus:border-blue-500">
+          <button (click)="addCategory()" class="ios-button ios-button-primary">افزودن</button>
+        </div>
+      </div>
+
+      <!-- Categories List -->
+      <div class="min-h-[200px] overflow-x-auto">
+        <table class="w-full text-sm text-right text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3">نام دسته‌بندی</th>
+              <th scope="col" class="px-6 py-3">اقدامات</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (cat of filteredCategories(); track cat.id) {
+              <tr class="bg-white border-b hover:bg-gray-50">
+                <td class="px-6 py-4">
+                  @if (editingCategory()?.id === cat.id) {
+                    <input type="text" [(ngModel)]="editingCategory()!.name" class="border border-gray-300 rounded-lg px-2 py-1">
+                  } @else {
+                    {{ cat.name }}
+                  }
+                </td>
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-4">
+                    @if (editingCategory()?.id === cat.id) {
+                      <button (click)="saveCategory()" class="font-medium text-green-600 hover:underline">ذخیره</button>
+                      <button (click)="cancelEdit()" class="font-medium text-gray-600 hover:underline">لغو</button>
+                    } @else {
+                      <button (click)="startEdit(cat)" class="font-medium text-blue-600 hover:underline">ویرایش</button>
+                      <button (click)="deleteCategory(cat.id, cat.name)" class="font-medium text-red-600 hover:underline">حذف</button>
+                    }
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="2" class="text-center py-8">
+                  <p class="text-gray-500">هیچ دسته‌بندی برای نمایش وجود ندارد.</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

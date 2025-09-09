@@ -1,0 +1,147 @@
+
+<app-query-state [status]="status()" [error]="error()">
+  <div slot="loading">
+    <div class="flex justify-center items-center h-96">
+      <svg class="animate-spin h-10 w-10 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
+  </div>
+
+  <div slot="error">
+    <div class="text-center py-20">
+      <div class="ios-card max-w-lg mx-auto p-8">
+        <i data-lucide="alert-triangle" class="w-12 h-12 text-red-500 mx-auto"></i>
+        <h3 class="mt-4 text-xl font-bold text-gray-800">خطا در بارگذاری</h3>
+        <p class="mt-2 text-gray-600">{{ error() }}</p>
+        <a routerLink="/products" class="ios-button ios-button-primary mt-6">بازگشت به لیست محصولات</a>
+      </div>
+    </div>
+  </div>
+
+  @if (product(); as product) {
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <!-- Main Content -->
+          <div class="lg:col-span-2 space-y-10">
+              <!-- Header -->
+              <div>
+                  <app-breadcrumb [items]="breadcrumbs()"></app-breadcrumb>
+                  <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">{{ product.title }}</h1>
+                  <p class="mt-2 text-lg text-gray-600">اثر {{ product.author }}</p>
+              </div>
+
+              <!-- Description -->
+              <div class="ios-card p-6">
+                  <h2 class="text-2xl font-bold mb-4">توضیحات محصول</h2>
+                  <div class="prose max-w-none text-gray-700 leading-relaxed" [innerHTML]="product.description"></div>
+              </div>
+
+              <!-- Table of Contents -->
+              <div class="ios-card p-6">
+                  <h2 class="text-2xl font-bold mb-4">سرفصل ها</h2>
+                  <ul class="space-y-3">
+                      @for(item of product.tableOfContents; track item) {
+                      <li class="flex items-start gap-3">
+                          <span class="text-blue-500 mt-1 flex-shrink-0"><i data-lucide="check-circle" class="w-5 h-5"></i></span>
+                          <span class="text-gray-700">{{ item }}</span>
+                      </li>
+                      }
+                  </ul>
+              </div>
+              
+              <!-- FAQ -->
+              @if(product.faq.length > 0) {
+                <div class="ios-card p-6">
+                    <h2 class="text-2xl font-bold mb-4">سوالات متداول</h2>
+                    <div class="space-y-4">
+                        @for(faq of product.faq; track faq.question) {
+                            <div>
+                                <h3 class="font-semibold text-gray-800">{{ faq.question }}</h3>
+                                <p class="mt-1 text-sm text-gray-600">{{ faq.answer }}</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+
+              <!-- Reviews -->
+              @if(product.reviews.length > 0) {
+                <div id="reviews" class="ios-card p-6">
+                    <h2 class="text-2xl font-bold mb-4">نظرات خریداران</h2>
+                    <div class="space-y-6">
+                        @for(review of product.reviews; track review.name) {
+                            <div class="flex items-start gap-4 border-b pb-4 last:border-b-0 last:pb-0">
+                                <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center font-bold text-gray-600 flex-shrink-0">
+                                    {{ review.name.charAt(0) }}
+                                </div>
+                                <div>
+                                    <h4 class="font-bold">{{ review.name }}</h4>
+                                    <div class="flex items-center my-1 text-yellow-400">
+                                        @for(i of getStars(review.rating); track $index) { <i data-lucide="star" class="w-5 h-5 lucide-filled"></i> }
+                                    </div>
+                                    <p class="text-gray-700 text-sm">{{ review.comment }}</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+              }
+
+          </div>
+
+          <!-- Sidebar -->
+          <div class="lg:col-span-1">
+              <div class="ios-card overflow-hidden sticky top-24">
+                  <img [src]="product.imageUrl" alt="{{ product.title }}" class="w-full h-auto aspect-[3/4] object-cover">
+
+                  <div class="p-6">
+                      <div class="flex items-baseline gap-2">
+                          <span class="text-3xl font-extrabold text-gray-900">{{ product.price }}</span>
+                          <span class="text-lg font-medium text-gray-700">تومان</span>
+                      </div>
+
+                      <div class="mt-4 flex flex-col gap-3">
+                        <button class="ios-button ios-button-primary w-full text-md">افزودن به سبد خرید</button>
+                      </div>
+
+                      @if(product.sampleUrl) {
+                        <a [href]="product.sampleUrl" target="_blank" class="mt-3 ios-button bg-gray-200 text-gray-800 hover:bg-gray-300 w-full text-md text-center flex items-center justify-center gap-2">
+                            <i data-lucide="download" class="w-5 h-5"></i>
+                            دانلود نمونه
+                        </a>
+                      }
+                      
+                      <div class="mt-6 text-sm">
+                        <h4 class="font-bold mb-3 text-gray-800">مشخصات</h4>
+                        <ul class="space-y-2 text-gray-600">
+                          <li class="flex items-center gap-2"><i data-lucide="info" class="w-5 h-5"></i> فرمت: {{ product.fileFormat }}</li>
+                          <li class="flex items-center gap-2"><i data-lucide="info" class="w-5 h-5"></i> تعداد صفحات: {{ product.pageCount }}</li>
+                          <li class="flex items-center gap-2"><i data-lucide="info" class="w-5 h-5"></i> زبان: {{ product.language }}</li>
+                          <li class="flex items-center gap-2"><i data-lucide="info" class="w-5 h-5"></i> آخرین بروزرسانی: {{ product.releaseDate }}</li>
+                        </ul>
+                      </div>
+
+                      @if (product.tags.length > 0) {
+                        <div class="mt-6">
+                          <h4 class="font-bold mb-3 text-gray-800">برچسب ها</h4>
+                          <div class="flex flex-wrap gap-2">
+                            @for(tag of product.tags; track tag) {
+                              <span class="text-xs font-medium text-gray-600 bg-gray-100 px-2.5 py-1 rounded-full">{{ tag }}</span>
+                            }
+                          </div>
+                        </div>
+                      }
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  } @else {
+      <div class="text-center py-20">
+          <p>محصول مورد نظر یافت نشد.</p>
+          <a routerLink="/products" class="ios-button ios-button-primary mt-4">بازگشت به لیست محصولات</a>
+      </div>
+  }
+</app-query-state>

@@ -1,0 +1,77 @@
+<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+  <!-- Page Header -->
+  <app-page-header
+    title="بلاگ آموزشی تریدلند"
+    subtitle="جدیدترین مقالات، تحلیل ها و نکات آموزشی برای موفقیت در بازارهای مالی.">
+  </app-page-header>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+    <!-- Blog Posts -->
+    <main class="lg:col-span-2 min-h-[400px]">
+      <app-query-state [status]="status()" [error]="error()" (refetch)="refetch()">
+        <div slot="loading">
+          <div class="space-y-8">
+            @for (_ of [1,2,3]; track $index) {
+              <app-blog-post-card-skeleton></app-blog-post-card-skeleton>
+            }
+          </div>
+        </div>
+
+        <!-- Success content in default slot -->
+        <div class="space-y-8">
+          @for (post of blogPosts(); track post.slug) {
+            <app-blog-post-card [post]="post" layout="list"></app-blog-post-card>
+          } @empty {
+             <div class="text-center py-16">
+                <div class="inline-block bg-white p-8 rounded-2xl shadow-sm border">
+                  <i data-lucide="file-text-x" class="w-16 h-16 text-gray-400 mx-auto"></i>
+                  <h3 class="mt-4 text-xl font-bold text-gray-800">مقاله‌ای یافت نشد</h3>
+                  <p class="mt-2 text-gray-600 max-w-sm">در حال حاضر مقاله‌ای برای نمایش وجود ندارد. به زودی بازگردید!</p>
+                </div>
+            </div>
+          }
+        </div>
+        <!-- Pagination would go here -->
+      </app-query-state>
+    </main>
+
+    <!-- Sidebar -->
+    <aside>
+      <div class="sticky top-24 space-y-8">
+        <!-- Categories -->
+        <div class="ios-card p-5">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">دسته بندی ها</h3>
+            <ul class="space-y-2">
+                @for(category of categories(); track category) {
+                    <li>
+                        <a href="#" class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
+                            <span class="text-blue-500"><i data-lucide="tag" class="w-5 h-5"></i></span>
+                            <span>{{ category }}</span>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <!-- Recent Posts -->
+        @if (status() === 'success' && recentPosts().length > 0) {
+          <div class="ios-card p-5">
+              <h3 class="text-lg font-bold text-gray-900 mb-4">پست های اخیر</h3>
+              <ul class="space-y-4">
+                  @for(post of recentPosts(); track post.slug) {
+                      <li>
+                          <a [routerLink]="['/blog', post.slug]" class="flex items-center gap-3">
+                              <img class="w-16 h-16 rounded-md object-cover" [src]="post.imageUrl" alt="{{ post.title }}">
+                              <div>
+                                  <h4 class="text-sm font-semibold text-gray-800 hover:text-blue-600 leading-tight">{{ post.title }}</h4>
+                                  <p class="text-xs text-gray-500 mt-1">{{ post.date }}</p>
+                              </div>
+                          </a>
+                      </li>
+                  }
+              </ul>
+          </div>
+        }
+      </div>
+    </aside>
+  </div>
+</div>
