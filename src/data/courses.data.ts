@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای دوره های آموزشی.
  */
-import { Course } from '../../models/course.model';
+import { Course } from '../models/course.model';
 
 /**
  * @const ALL_COURSES

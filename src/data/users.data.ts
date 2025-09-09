@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای کاربران سیستم.
  */
-import { User } from '../../models/user.model';
+import { User } from '../models/user.model';
 
 export const ALL_USERS: User[] = [
   {

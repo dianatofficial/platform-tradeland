@@ -1,12 +1,11 @@
 import { Component, ChangeDetectionStrategy, inject, Signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { SubscriptionService } from '../../../services/data/subscription.service';
 import { UserSubscription } from '../../../models/subscription.model';
 
 @Component({
   selector: 'app-admin-subscriptions',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './admin-subscriptions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

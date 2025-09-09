@@ -5,9 +5,7 @@
  */
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { CourseService } from '../../services/data/course.service';
-import { Course } from '../../models/course.model';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { CourseCardComponent } from '../../components/course-card/course-card.component';
 import { useQuery } from '../../composables/use-query';
@@ -15,11 +13,10 @@ import { CourseCardSkeletonComponent } from '../../components/course-card/course
 import { QueryStateComponent } from '../../components/query-state/query-state.component';
 // FIX: Corrected the import paths for CategoryService and Category to resolve a type inference issue.
 import { CategoryService } from '../../services/data/category.service';
-import { Category } from '../../models/category.model';
 
 @Component({
   selector: 'app-courses-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, CourseCardComponent, CourseCardSkeletonComponent, QueryStateComponent],
+  imports: [CommonModule, PageHeaderComponent, CourseCardComponent, CourseCardSkeletonComponent, QueryStateComponent],
   templateUrl: './courses-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

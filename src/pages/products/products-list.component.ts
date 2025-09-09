@@ -5,18 +5,16 @@
  */
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ProductService } from '../../services/data/product.service';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { ProductCardComponent } from '../../components/product-card/product-card.component';
-import { Product } from '../../models/product.model';
 import { useQuery } from '../../composables/use-query';
 import { ProductCardSkeletonComponent } from '../../components/product-card/product-card-skeleton.component';
 import { QueryStateComponent } from '../../components/query-state/query-state.component';
 
 @Component({
   selector: 'app-products-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, ProductCardComponent, ProductCardSkeletonComponent, QueryStateComponent],
+  imports: [CommonModule, PageHeaderComponent, ProductCardComponent, ProductCardSkeletonComponent, QueryStateComponent],
   templateUrl: './products-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

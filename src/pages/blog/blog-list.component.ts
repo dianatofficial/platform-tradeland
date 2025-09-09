@@ -7,18 +7,14 @@ import { Component, ChangeDetectionStrategy, signal, inject, computed } from '@a
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../services/data/blog.service';
-import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { BlogPostCardComponent } from '../../components/blog-post-card/blog-post-card.component';
 import { useQuery } from '../../composables/use-query';
-import { BlogPostCardSkeletonComponent } from '../../components/blog-post-card/blog-post-card-skeleton.component';
 import { QueryStateComponent } from '../../components/query-state/query-state.component';
 import { CategoryService } from '../../services/data/category.service';
-import { Category } from '../../models/category.model';
-import { BlogPost } from '../../models/blog.model';
 
 @Component({
   selector: 'app-blog-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, BlogPostCardComponent, BlogPostCardSkeletonComponent, QueryStateComponent],
+  imports: [CommonModule, RouterLink, BlogPostCardComponent, QueryStateComponent],
   templateUrl: './blog-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

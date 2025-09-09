@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای محصولات دانلودی.
  */
-import { Product } from '../../models/product.model';
+import { Product } from '../models/product.model';
 
 /**
  * @const ALL_PRODUCTS

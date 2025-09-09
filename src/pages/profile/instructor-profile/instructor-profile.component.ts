@@ -4,7 +4,7 @@
  */
 import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { map, switchMap } from 'rxjs';
 // FIX: Corrected import paths from ../../ to ../../../ to resolve type inference issues.
 import { UserService } from '../../../services/data/user.service';
@@ -24,7 +24,7 @@ import { CafeTradePost } from '../../../models/cafe-trade.model';
 
 @Component({
   selector: 'app-instructor-profile',
-  imports: [CommonModule, RouterLink, QueryStateComponent, CourseCardComponent, BlogPostCardComponent, ReactiveFormsModule, RichTextEditorComponent, ChannelPostComponent],
+  imports: [CommonModule, QueryStateComponent, CourseCardComponent, BlogPostCardComponent, ReactiveFormsModule, RichTextEditorComponent, ChannelPostComponent],
   templateUrl: './instructor-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

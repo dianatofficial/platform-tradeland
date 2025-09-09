@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای آیتم های خبری.
  */
-import { NewsItem } from '../../models/news.model';
+import { NewsItem } from '../models/news.model';
 
 /**
  * @const ALL_NEWS

@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای کتابخانه رسانه.
  */
-import { MediaItem } from '../../models/media.model';
+import { MediaItem } from '../models/media.model';
 
 export const ALL_MEDIA: MediaItem[] = [
   { id: 1, url: 'https://picsum.photos/seed/tech/600/400', filename: 'course-tech.jpg', uploadedAt: '۱۴۰۳/۰۴/۲۰', fileType: 'image/jpeg', size: '85 KB' },

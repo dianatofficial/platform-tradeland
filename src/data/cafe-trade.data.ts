@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای تحلیلگران کافه ترید.
  */
-import { Analyst } from '../../models/cafe-trade.model';
+import { Analyst } from '../models/cafe-trade.model';
 
 /**
  * @const ALL_ANALYSTS

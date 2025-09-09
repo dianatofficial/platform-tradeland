@@ -3,7 +3,7 @@
  */
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { map, switchMap, forkJoin } from 'rxjs';
 import { CafeTradeService } from '../../services/data/cafe-trade.service';
 import { useAsync } from '../../composables/use-async';
@@ -15,7 +15,7 @@ import { ChannelPostSkeletonComponent } from '../../components/channel-post/chan
 
 @Component({
   selector: 'app-channel-detail',
-  imports: [CommonModule, RouterLink, BreadcrumbComponent, QueryStateComponent, ChannelPostComponent, ChannelPostSkeletonComponent],
+  imports: [CommonModule, BreadcrumbComponent, QueryStateComponent, ChannelPostComponent, ChannelPostSkeletonComponent],
   templateUrl: './channel-detail.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

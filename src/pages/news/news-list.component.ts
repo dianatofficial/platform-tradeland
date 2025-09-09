@@ -5,7 +5,6 @@
  */
 import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { NewsService } from '../../services/data/news.service';
 import { PageHeaderComponent } from '../../components/page-header/page-header.component';
 import { NewsCardComponent } from '../../components/news-card/news-card.component';
@@ -15,7 +14,7 @@ import { QueryStateComponent } from '../../components/query-state/query-state.co
 
 @Component({
   selector: 'app-news-list',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, NewsCardComponent, NewsCardSkeletonComponent, QueryStateComponent],
+  imports: [CommonModule, PageHeaderComponent, NewsCardComponent, NewsCardSkeletonComponent, QueryStateComponent],
   templateUrl: './news-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

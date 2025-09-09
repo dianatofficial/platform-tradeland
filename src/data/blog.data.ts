@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای پست های بلاگ.
  */
-import { BlogPost } from '../../models/blog.model';
+import { BlogPost } from '../models/blog.model';
 
 /**
  * @const ALL_POSTS

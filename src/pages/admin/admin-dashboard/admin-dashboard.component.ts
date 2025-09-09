@@ -1,7 +1,7 @@
 
+
 import { Component, ChangeDetectionStrategy, signal, viewChild, ElementRef, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { StatCard } from '../../../models/ui.model';
 
 declare const d3: any;
@@ -9,7 +9,7 @@ declare const d3: any;
 @Component({
   selector: 'app-admin-dashboard',
   templateUrl: './admin-dashboard.component.html',
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminDashboardComponent {

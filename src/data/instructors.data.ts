@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای مدرسین و تحلیلگران.
  */
-import { Instructor } from '../../models/instructor.model';
+import { Instructor } from '../models/instructor.model';
 
 export const ALL_INSTRUCTORS: Instructor[] = [
   { id: 1, name: 'علی محمدی', type: 'مدرس', specialty: 'تحلیل تکنیکال کلاسیک', imageUrl: 'https://picsum.photos/seed/ali/100/100', contentCount: 2, followers: 12500 },

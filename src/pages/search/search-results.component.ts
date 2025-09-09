@@ -4,7 +4,7 @@
  */
 import { Component, ChangeDetectionStrategy, inject, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { map } from 'rxjs';
 
@@ -19,7 +19,7 @@ import { BlogPostCardComponent } from '../../components/blog-post-card/blog-post
 
 @Component({
   selector: 'app-search-results',
-  imports: [CommonModule, RouterLink, PageHeaderComponent, CourseCardComponent, ProductCardComponent, BlogPostCardComponent],
+  imports: [CommonModule, PageHeaderComponent, CourseCardComponent, ProductCardComponent, BlogPostCardComponent],
   templateUrl: './search-results.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

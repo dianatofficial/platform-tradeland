@@ -3,7 +3,7 @@
  */
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CafeTradePost } from '../../../models/cafe-trade.model';
+import { CafeTradePost } from '../../models/cafe-trade.model';
 
 @Component({
   selector: 'app-channel-post',

@@ -1,7 +1,7 @@
 /**
  * @fileoverview داده های نمونه برای اشتراک های کاربران.
  */
-import { UserSubscription } from '../../models/subscription.model';
+import { UserSubscription } from '../models/subscription.model';
 
 export const ALL_SUBSCRIPTIONS: UserSubscription[] = [
   { id: 1, user: {id: 3, fullName: 'علی محمدی', avatarUrl: 'https://picsum.photos/seed/ali/100/100'}, planName: 'سالیانه', startDate: '۱۴۰۲/۱۲/۱۵', endDate: '۱۴۰۳/۱۲/۱۵', status: 'فعال' },
